@@ -1,0 +1,2 @@
+{"_id":{"$oid":"61aa6ae40caf84c1b8f04374"},"gameChat":{"$ref":"game","$id":{"$oid":"61aa66be0caf84c1b8f0436d"}},"dateAdded":{"$date":"2021-12-03T19:07:16.63Z"},"User":{"$ref":"user","$id":{"$oid":"61aa68650caf84c1b8f04370"}},"message":"Go for the Flag!"}
+{"_id":{"$oid":"61aa6af10caf84c1b8f04375"},"gameChat":{"$ref":"game","$id":{"$oid":"61aa66be0caf84c1b8f0436d"}},"dateAdded":{"$date":"2021-12-03T19:07:29.14Z"},"User":{"$ref":"user","$id":{"$oid":"61aa69d50caf84c1b8f04372"}},"message":"On it!"}
