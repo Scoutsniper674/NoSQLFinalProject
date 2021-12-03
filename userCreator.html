@@ -14,9 +14,9 @@
 
         Choose Account Type:
         <select name="accountType" id="accountType">
-            <option value="1">1 Creator</option>
-            <option value="2">2 Player</option>
-            <option value="3">3 Both</option>
+            <option value="Creator Only"> Creator</option>
+            <option value="Player"> Player</option>
+            <option value="Creator-Player"> Both</option>
         </select>
         <br>
         <input type="button" onClick="userCreate()" value="Create User" />
@@ -27,11 +27,20 @@
         function userCreate() {
             var userName = document.getElementById("username").value;
             var accountType = document.getElementById("accountType").value;
+
             console.log(userName);
             console.log(accountType);
-            
+
+            var MongoClient = require('mongodb').MongoClient;
+
+            MongoClient.connect('mongodb://localhost:27017', function (err, db){
+                db.collection('user', function (err, collection) {
+                    collection.insert({name: userName, player_type: accountType });
+                })
 
 
+                if (err) throw err;
+            });
         }
     </script>
     <form name="myForm" id="myForm" method="get"><br><br><br><br><br><br><br>
