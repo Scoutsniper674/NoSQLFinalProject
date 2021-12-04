@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Creator</title>
+</head>
+
+<body>
+    <form name="myForm" id="myForm" method="post">
+        Username:<input type="text" name="username" id="username"><br>
+
+        Choose Account Type:
+        <select name="accountType" id="accountType">
+            <option value="1">1 Creator</option>
+            <option value="2">2 Player</option>
+            <option value="3">3 Both</option>
+        </select>
+        <br>
+        <input type="button" onClick="userCreate()" value="Create User" />
+
+    </form>
+    <!--This script is for adding data into the user collection-->
+    <script type="text/javascript">
+        function userCreate() {
+            var userName = document.getElementById("username").value;
+            var accountType = document.getElementById("accountType").value;
+            console.log(userName);
+            console.log(accountType);
+            
+
+
+        }
+    </script>
+    <form name="myForm" id="myForm" method="get"><br><br><br><br><br><br><br>
+        How many entries would you like to see<input type="number" name="limit" id="limit"><br>
+        <input type="button" onclick="readUserCollect()" value="Show Collection ">
+    </form>
+     <!--This Script is for reading a collection with a limit-->
+    <script>
+        function readUserCollect() {
+            var desiredAmount = document.getElementById("limit").value;
+            console.log(desiredAmount);
+
+            //Throw data retrevied into a div 
+        }
+
+    </script>
+       
+
+
+    
+</body>
+
+</html>

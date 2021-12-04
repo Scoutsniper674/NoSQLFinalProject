@@ -1,0 +1,816 @@
+Microsoft Windows [Version 10.0.19043.1348]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\sderenski>docker exec -it dbt230_pg_SD /bash/bin
+OCI runtime exec failed: exec failed: container_linux.go:380: starting container process caused: exec: "/bash/bin": stat /bash/bin: no such file or directory: unknown
+
+C:\Users\sderenski>docker exec -it dbt230_pg_SD /bin/bash
+root@3bd591edccfe:/# psql -U postgres
+psql (14.0 (Debian 14.0-1.pgdg110+1))
+Type "help" for help.
+
+postgres=# /list
+postgres-# ;
+ERROR:  syntax error at or near "/"
+LINE 1: /list
+        ^
+postgres=# \list;
+invalid command \list;
+Try \? for help.
+postgres=# /list;
+ERROR:  syntax error at or near "/"
+LINE 1: /list;
+        ^
+postgres=# \list
+                                 List of databases
+   Name    |  Owner   | Encoding |  Collate   |   Ctype    |   Access privileges
+-----------+----------+----------+------------+------------+-----------------------
+ finalmmo  | postgres | UTF8     | en_US.utf8 | en_US.utf8 |
+ postgres  | postgres | UTF8     | en_US.utf8 | en_US.utf8 |
+ template0 | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
+           |          |          |            |            | postgres=CTc/postgres
+ template1 | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
+           |          |          |            |            | postgres=CTc/postgres
+(4 rows)
+
+postgres=# \c finalmmo
+You are now connected to database "finalmmo" as user "postgres".
+finalmmo=# \schema
+invalid command \schema
+Try \? for help.
+finalmmo=# \list schema
+                       List of databases
+ Name | Owner | Encoding | Collate | Ctype | Access privileges
+------+-------+----------+---------+-------+-------------------
+(0 rows)
+
+finalmmo=# \list
+                                 List of databases
+   Name    |  Owner   | Encoding |  Collate   |   Ctype    |   Access privileges
+-----------+----------+----------+------------+------------+-----------------------
+ finalmmo  | postgres | UTF8     | en_US.utf8 | en_US.utf8 |
+ postgres  | postgres | UTF8     | en_US.utf8 | en_US.utf8 |
+ template0 | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
+           |          |          |            |            | postgres=CTc/postgres
+ template1 | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
+           |          |          |            |            | postgres=CTc/postgres
+(4 rows)
+
+finalmmo=# \?
+General
+  \copyright             show PostgreSQL usage and distribution terms
+  \crosstabview [COLUMNS] execute query and display results in crosstab
+  \errverbose            show most recent error message at maximum verbosity
+  \g [(OPTIONS)] [FILE]  execute query (and send results to file or |pipe);
+                         \g with no arguments is equivalent to a semicolon
+  \gdesc                 describe result of query, without executing it
+  \gexec                 execute query, then execute each value in its result
+  \gset [PREFIX]         execute query and store results in psql variables
+  \gx [(OPTIONS)] [FILE] as \g, but forces expanded output mode
+  \q                     quit psql
+  \watch [SEC]           execute query every SEC seconds
+
+Help
+  \? [commands]          show help on backslash commands
+  \? options             show help on psql command-line options
+  \? variables           show help on special variables
+  \h [NAME]              help on syntax of SQL commands, * for all commands
+
+Query Buffer
+  \e [FILE] [LINE]       edit the query buffer (or file) with external editor
+  \ef [FUNCNAME [LINE]]  edit function definition with external editor
+  \ev [VIEWNAME [LINE]]  edit view definition with external editor
+  \p                     show the contents of the query buffer
+  \r                     reset (clear) the query buffer
+  \s [FILE]              display history or save it to file
+  \w FILE                write query buffer to file
+
+Input/Output
+  \copy ...              perform SQL COPY with data stream to the client host
+  \echo [-n] [STRING]    write string to standard output (-n for no newline)
+  \i FILE                execute commands from file
+  \ir FILE               as \i, but relative to location of current script
+  \o [FILE]              send all query results to file or |pipe
+  \qecho [-n] [STRING]   write string to \o output stream (-n for no newline)
+  \warn [-n] [STRING]    write string to standard error (-n for no newline)
+
+Conditional
+  \if EXPR               begin conditional block
+  \elif EXPR             alternative within current conditional block
+  \else                  final alternative within current conditional block
+  \endif                 end conditional block
+
+Informational
+  (options: S = show system objects, + = additional detail)
+  \d[S+]                 list tables, views, and sequences
+  \d[S+]  NAME           describe table, view, sequence, or index
+  \da[S]  [PATTERN]      list aggregates
+  \dA[+]  [PATTERN]      list access methods
+  \dAc[+] [AMPTRN [TYPEPTRN]]  list operator classes
+  \dAf[+] [AMPTRN [TYPEPTRN]]  list operator families
+  \dAo[+] [AMPTRN [OPFPTRN]]   list operators of operator families
+  \dAp[+] [AMPTRN [OPFPTRN]]   list support functions of operator families
+  \db[+]  [PATTERN]      list tablespaces
+  \dc[S+] [PATTERN]      list conversions
+  \dC[+]  [PATTERN]      list casts
+  \dd[S]  [PATTERN]      show object descriptions not displayed elsewhere
+  \dD[S+] [PATTERN]      list domains
+  \ddp    [PATTERN]      list default privileges
+  \dE[S+] [PATTERN]      list foreign tables
+  \des[+] [PATTERN]      list foreign servers
+  \det[+] [PATTERN]      list foreign tables
+  \deu[+] [PATTERN]      list user mappings
+  \dew[+] [PATTERN]      list foreign-data wrappers
+  \df[anptw][S+] [FUNCPTRN [TYPEPTRN ...]]
+                         list [only agg/normal/procedure/trigger/window] functions
+  \dF[+]  [PATTERN]      list text search configurations
+  \dFd[+] [PATTERN]      list text search dictionaries
+  \dFp[+] [PATTERN]      list text search parsers
+  \dFt[+] [PATTERN]      list text search templates
+  \dg[S+] [PATTERN]      list roles
+  \di[S+] [PATTERN]      list indexes
+  \dl                    list large objects, same as \lo_list
+  \dL[S+] [PATTERN]      list procedural languages
+  \dm[S+] [PATTERN]      list materialized views
+  \dn[S+] [PATTERN]      list schemas
+  \do[S+] [OPPTRN [TYPEPTRN [TYPEPTRN]]]
+                         list operators
+  \dO[S+] [PATTERN]      list collations
+  \dp     [PATTERN]      list table, view, and sequence access privileges
+  \dP[itn+] [PATTERN]    list [only index/table] partitioned relations [n=nested]
+  \drds [ROLEPTRN [DBPTRN]] list per-database role settings
+  \dRp[+] [PATTERN]      list replication publications
+  \dRs[+] [PATTERN]      list replication subscriptions
+  \ds[S+] [PATTERN]      list sequences
+  \dt[S+] [PATTERN]      list tables
+  \dT[S+] [PATTERN]      list data types
+  \du[S+] [PATTERN]      list roles
+  \dv[S+] [PATTERN]      list views
+  \dx[+]  [PATTERN]      list extensions
+  \dX     [PATTERN]      list extended statistics
+  \dy[+]  [PATTERN]      list event triggers
+  \l[+]   [PATTERN]      list databases
+  \sf[+]  FUNCNAME       show a function's definition
+  \sv[+]  VIEWNAME       show a view's definition
+  \z      [PATTERN]      same as \dp
+
+Formatting
+  \a                     toggle between unaligned and aligned output mode
+  \C [STRING]            set table title, or unset if none
+  \f [STRING]            show or set field separator for unaligned query output
+  \H                     toggle HTML output mode (currently off)
+  \pset [NAME [VALUE]]   set table output option
+                         (border|columns|csv_fieldsep|expanded|fieldsep|
+                         fieldsep_zero|footer|format|linestyle|null|
+                         numericlocale|pager|pager_min_lines|recordsep|
+                         recordsep_zero|tableattr|title|tuples_only|
+                         unicode_border_linestyle|unicode_column_linestyle|
+                         unicode_header_linestyle)
+  \t [on|off]            show only rows (currently off)
+  \T [STRING]            set HTML <table> tag attributes, or unset if none
+  \x [on|off|auto]       toggle expanded output (currently off)
+
+Connection
+  \c[onnect] {[DBNAME|- USER|- HOST|- PORT|-] | conninfo}
+                         connect to new database (currently "finalmmo")
+  \conninfo              display information about current connection
+  \encoding [ENCODING]   show or set client encoding
+  \password [USERNAME]   securely change the password for a user
+
+Operating System
+  \cd [DIR]              change the current working directory
+  \setenv NAME [VALUE]   set or unset environment variable
+  \timing [on|off]       toggle timing of commands (currently off)
+  \! [COMMAND]           execute command in shell or start interactive shell
+
+Variables
+  \prompt [TEXT] NAME    prompt user to set internal variable
+  \set [NAME [VALUE]]    set internal variable, or list all if no parameters
+  \unset NAME            unset (delete) internal variable
+
+Large Objects
+  \lo_export LOBOID FILE
+  \lo_import FILE [COMMENT]
+  \lo_list
+  \lo_unlink LOBOID      large object operations
+finalmmo=#
+finalmmo=#
+finalmmo=#
+finalmmo=#
+finalmmo=#
+finalmmo=#
+finalmmo=#
+finalmmo=#
+finalmmo=#
+finalmmo=#
+finalmmo=#
+finalmmo=#
+finalmmo=#
+finalmmo=# \dn
+  List of schemas
+  Name  |  Owner
+--------+----------
+ public | postgres
+(1 row)
+
+finalmmo=# CREATE SCHEMA final;
+CREATE SCHEMA
+finalmmo=# DROP SCHEMA public;
+DROP SCHEMA
+finalmmo=# \dn
+ List of schemas
+ Name  |  Owner
+-------+----------
+ final | postgres
+(1 row)
+
+finalmmo=# SET search_path=store;
+SET
+finalmmo=# SET search_path=final;
+SET
+finalmmo=# \dn
+ List of schemas
+ Name  |  Owner
+-------+----------
+ final | postgres
+(1 row)
+
+finalmmo=# CREATE TABLE user (id uuid, username varchar, type varchar);
+ERROR:  syntax error at or near "user"
+LINE 1: CREATE TABLE user (id uuid, username varchar, type varchar);
+                     ^
+finalmmo=# CREATE TABLE final.user (id uuid, username varchar, type varchar);
+CREATE TABLE
+finalmmo=# \dn
+ List of schemas
+ Name  |  Owner
+-------+----------
+ final | postgres
+(1 row)
+
+finalmmo=# drop table final.user;
+DROP TABLE
+finalmmo=# CREATE TABLE final.user (id uuid primary key, username varchar unique, type varchar);
+CREATE TABLE
+finalmmo=# CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+CREATE EXTENSION
+finalmmo=# INSERT INTO final.user (id, username, type) VALUES (uuid_generate_v1(), 'User"||generate_series(1,1000), 'Player');
+finalmmo'# select count(*) from final.user;
+finalmmo'# ;
+finalmmo'# '
+finalmmo(# )
+finalmmo-# ;
+ERROR:  syntax error at or near "Player"
+LINE 1: ...d_generate_v1(), 'User"||generate_series(1,1000), 'Player');
+                                                              ^
+finalmmo=# INSERT INTO final.user (id, username, type) VALUES (uuid_generate_v1(), 'User'||generate_series(1,1000), 'Player');
+INSERT 0 1000
+finalmmo=# select count(*) from final.user;
+ count
+-------
+  1000
+(1 row)
+
+finalmmo=# DROP TABLE final.user
+finalmmo-# ;
+DROP TABLE
+finalmmo=# CREATE TABLE final.user (id uuid, username varchar unique, type varchar, primary key(id, type);
+finalmmo(# )
+finalmmo-# ;
+ERROR:  syntax error at or near ";"
+LINE 1: ...sername varchar unique, type varchar, primary key(id, type);
+                                                                      ^
+finalmmo=# CREATE TABLE final.user (id uuid, username varchar unique, type varchar, primary key(id, type));
+CREATE TABLE
+finalmmo=# INSERT INTO final.user (id, username, type) VALUES (uuid_generate_v1(), 'User'||generate_series(1,1000), 'Player');
+INSERT 0 1000
+finalmmo=# select count(*) from final.user;
+ count
+-------
+  1000
+(1 row)
+
+finalmmo=# \d
+        List of relations
+ Schema | Name | Type  |  Owner
+--------+------+-------+----------
+ final  | user | table | postgres
+(1 row)
+
+finalmmo=# select * from final.user limit 10
+finalmmo-# ;
+                  id                  | username |  type
+--------------------------------------+----------+--------
+ 4f59c412-53da-11ec-8a26-0242ac110002 | User1    | Player
+ 4f59d376-53da-11ec-8a26-0242ac110002 | User2    | Player
+ 4f59d43e-53da-11ec-8a26-0242ac110002 | User3    | Player
+ 4f59d588-53da-11ec-8a26-0242ac110002 | User4    | Player
+ 4f59d75e-53da-11ec-8a26-0242ac110002 | User5    | Player
+ 4f59d7e0-53da-11ec-8a26-0242ac110002 | User6    | Player
+ 4f59d84e-53da-11ec-8a26-0242ac110002 | User7    | Player
+ 4f59d8f8-53da-11ec-8a26-0242ac110002 | User8    | Player
+ 4f59da4c-53da-11ec-8a26-0242ac110002 | User9    | Player
+ 4f59dc22-53da-11ec-8a26-0242ac110002 | User10   | Player
+(10 rows)
+
+finalmmo=# UPDATE final.user SET type = 'Creator' WHERE id = 4f59c412-53da-11ec-8a26-0242ac110002
+finalmmo-# ;
+ERROR:  syntax error at or near "f59c412"
+LINE 1: ...PDATE final.user SET type = 'Creator' WHERE id = 4f59c412-53...
+                                                             ^
+finalmmo=# UPDATE final.user SET type = 'Creator' WHERE id = '4f59c412-53da-11ec-8a26-0242ac110002'
+;
+UPDATE 1
+finalmmo=# select * from final.user limit 10;
+                  id                  | username |  type
+--------------------------------------+----------+--------
+ 4f59d376-53da-11ec-8a26-0242ac110002 | User2    | Player
+ 4f59d43e-53da-11ec-8a26-0242ac110002 | User3    | Player
+ 4f59d588-53da-11ec-8a26-0242ac110002 | User4    | Player
+ 4f59d75e-53da-11ec-8a26-0242ac110002 | User5    | Player
+ 4f59d7e0-53da-11ec-8a26-0242ac110002 | User6    | Player
+ 4f59d84e-53da-11ec-8a26-0242ac110002 | User7    | Player
+ 4f59d8f8-53da-11ec-8a26-0242ac110002 | User8    | Player
+ 4f59da4c-53da-11ec-8a26-0242ac110002 | User9    | Player
+ 4f59dc22-53da-11ec-8a26-0242ac110002 | User10   | Player
+ 4f59dc90-53da-11ec-8a26-0242ac110002 | User11   | Player
+(10 rows)
+
+finalmmo=# select * from final.user WHERE id = '4f59c412-53da-11ec-8a26-0242ac110002';
+                  id                  | username |  type
+--------------------------------------+----------+---------
+ 4f59c412-53da-11ec-8a26-0242ac110002 | User1    | Creator
+(1 row)
+
+finalmmo=# UPDATE final.user SET type = 'Creator' WHERE id = '4f59d376-53da-11ec-8a26-0242ac110002';
+UPDATE 1
+finalmmo=# UPDATE final.user SET type = 'Creator' WHERE id = '4f59d43e-53da-11ec-8a26-0242ac110002';
+UPDATE 1
+finalmmo=# UPDATE final.user SET type = 'Creator' WHERE id = '4f59d588-53da-11ec-8a26-0242ac110002';
+UPDATE 1
+finalmmo=# UPDATE final.user SET type = 'Creator' WHERE id = '4f59d75e-53da-11ec-8a26-0242ac110002';
+UPDATE 1
+finalmmo=# select * from final.user limit 5;
+                  id                  | username |  type
+--------------------------------------+----------+--------
+ 4f59d7e0-53da-11ec-8a26-0242ac110002 | User6    | Player
+ 4f59d84e-53da-11ec-8a26-0242ac110002 | User7    | Player
+ 4f59d8f8-53da-11ec-8a26-0242ac110002 | User8    | Player
+ 4f59da4c-53da-11ec-8a26-0242ac110002 | User9    | Player
+ 4f59dc22-53da-11ec-8a26-0242ac110002 | User10   | Player
+(5 rows)
+
+finalmmo=# UPDATE final.user SET type = 'Creator/Player' WHERE id = '4f59d7e0-53da-11ec-8a26-0242ac110002';
+UPDATE 1
+finalmmo=# UPDATE final.user SET type = 'Creator/Player' WHERE id = '4f59d84e-53da-11ec-8a26-0242ac110002';
+UPDATE 1
+finalmmo=# UPDATE final.user SET type = 'Creator/Player' WHERE id = '4f59d8f8-53da-11ec-8a26-0242ac110002';
+UPDATE 1
+finalmmo=# UPDATE final.user SET type = 'Creator/Player' WHERE id = '4f59da4c-53da-11ec-8a26-0242ac110002';
+UPDATE 1
+finalmmo=# UPDATE final.user SET type = 'Creator/Player' WHERE id = '4f59dc22-53da-11ec-8a26-0242ac110002';
+UPDATE 1
+finalmmo=# select * from final.user limit 10 WHERE type = 'Creator';
+ERROR:  syntax error at or near "WHERE"
+LINE 1: select * from final.user limit 10 WHERE type = 'Creator';
+                                          ^
+finalmmo=# select * from final.user WHERE type = 'Creator';
+                  id                  | username |  type
+--------------------------------------+----------+---------
+ 4f59d376-53da-11ec-8a26-0242ac110002 | User2    | Creator
+ 4f59d43e-53da-11ec-8a26-0242ac110002 | User3    | Creator
+ 4f59d75e-53da-11ec-8a26-0242ac110002 | User5    | Creator
+ 4f59c412-53da-11ec-8a26-0242ac110002 | User1    | Creator
+ 4f59d588-53da-11ec-8a26-0242ac110002 | User4    | Creator
+(5 rows)
+
+finalmmo=# select * from final.user WHERE type = 'Creator/Player';
+                  id                  | username |      type
+--------------------------------------+----------+----------------
+ 4f59d7e0-53da-11ec-8a26-0242ac110002 | User6    | Creator/Player
+ 4f59d84e-53da-11ec-8a26-0242ac110002 | User7    | Creator/Player
+ 4f59d8f8-53da-11ec-8a26-0242ac110002 | User8    | Creator/Player
+ 4f59da4c-53da-11ec-8a26-0242ac110002 | User9    | Creator/Player
+ 4f59dc22-53da-11ec-8a26-0242ac110002 | User10   | Creator/Player
+(5 rows)
+
+finalmmo=# CREATE TABLE final.game(id uuid PRIMARY KEY, name varchar, cost varchar);
+CREATE TABLE
+finalmmo=# CREATE TABLE final.creators(id serial, user_id references final.user(id));
+ERROR:  syntax error at or near "references"
+LINE 1: CREATE TABLE final.creators(id serial, user_id references fi...
+                                                       ^
+finalmmo=# CREATE TABLE final.creators(id serial, user_id uuid references final.user(id));
+ERROR:  there is no unique constraint matching given keys for referenced table "user"
+finalmmo=# CREATE TABLE final.creators(id serial, user_id uuid unique references final.user(id));
+ERROR:  there is no unique constraint matching given keys for referenced table "user"
+finalmmo=# \d
+        List of relations
+ Schema | Name | Type  |  Owner
+--------+------+-------+----------
+ final  | game | table | postgres
+ final  | user | table | postgres
+(2 rows)
+
+finalmmo=# CREATE TABLE final.creators(id serial, user_id uuid unique, constraint creator_user foreign key (user_id) references final.user(id));
+ERROR:  there is no unique constraint matching given keys for referenced table "user"
+finalmmo=# CREATE TABLE final.creators(id serial, user_id uuid, constraint creator_user foreign key (user_id) references final.user(id));
+ERROR:  there is no unique constraint matching given keys for referenced table "user"
+finalmmo=# drop table final.user
+finalmmo-# ;
+DROP TABLE
+finalmmo=# CREATE TABLE final.user (id uuid, username varchar, type varchar, primary key(id, type));
+CREATE TABLE
+finalmmo=# INSERT INTO final.user (id, username, type) VALUES (uuid_generate_v1(), 'User'||generate_series(1,1000), 'Player');
+INSERT 0 1000
+finalmmo=# drop table final.user;
+DROP TABLE
+finalmmo=# CREATE TABLE final.user (id uuid, username varchar, type varchar, primary key(id, type));
+CREATE TABLE
+finalmmo=# CREATE TABLE final.creators(id serial, user_id uuid, constraint creator_user foreign key (user_id) references final.user(id));
+ERROR:  there is no unique constraint matching given keys for referenced table "user"
+finalmmo=# drop table final.user;
+DROP TABLE
+finalmmo=# CREATE TABLE final.user (id uuid unique, username varchar unique, type varchar, primary key(id, type));
+CREATE TABLE
+finalmmo=# CREATE TABLE final.creators(id serial, user_id uuid unqiue, constraint creator_user foreign key (user_id) references final.user(id));
+ERROR:  syntax error at or near "unqiue"
+LINE 1: ...EATE TABLE final.creators(id serial, user_id uuid unqiue, co...
+                                                             ^
+finalmmo=# CREATE TABLE final.creators(id serial, user_id uuid unique, constraint creator_user foreign key (user_id) references final.user(id));
+CREATE TABLE
+finalmmo=# drop table final.creators
+finalmmo-# ;
+DROP TABLE
+finalmmo=# CREATE TABLE final.creators(id serial, user_id uuid unique, published_game varchar, constraint creator
+_user foreign key (user_id) references final.user(id), constraint published_game foreign key (published_game) references final.game(id));
+ERROR:  foreign key constraint "published_game" cannot be implemented
+DETAIL:  Key columns "published_game" and "id" are of incompatible types: character varying and uuid.
+finalmmo=# CREATE TABLE final.creators(id serial, user_id uuid unique, published_game uuid, constraint creator_us
+er foreign key (user_id) references final.user(id), constraint published_game foreign key (published_game) refere
+nces final.game(id));
+CREATE TABLE
+finalmmo=# \?
+General
+  \copyright             show PostgreSQL usage and distribution terms
+  \crosstabview [COLUMNS] execute query and display results in crosstab
+  \errverbose            show most recent error message at maximum verbosity
+  \g [(OPTIONS)] [FILE]  execute query (and send results to file or |pipe);
+                         \g with no arguments is equivalent to a semicolon
+  \gdesc                 describe result of query, without executing it
+  \gexec                 execute query, then execute each value in its result
+  \gset [PREFIX]         execute query and store results in psql variables
+  \gx [(OPTIONS)] [FILE] as \g, but forces expanded output mode
+  \q                     quit psql
+  \watch [SEC]           execute query every SEC seconds
+
+Help
+  \? [commands]          show help on backslash commands
+  \? options             show help on psql command-line options
+  \? variables           show help on special variables
+  \h [NAME]              help on syntax of SQL commands, * for all commands
+
+Query Buffer
+  \e [FILE] [LINE]       edit the query buffer (or file) with external editor
+  \ef [FUNCNAME [LINE]]  edit function definition with external editor
+  \ev [VIEWNAME [LINE]]  edit view definition with external editor
+  \p                     show the contents of the query buffer
+  \r                     reset (clear) the query buffer
+  \s [FILE]              display history or save it to file
+  \w FILE                write query buffer to file
+
+Input/Output
+  \copy ...              perform SQL COPY with data stream to the client host
+  \echo [-n] [STRING]    write string to standard output (-n for no newline)
+  \i FILE                execute commands from file
+  \ir FILE               as \i, but relative to location of current script
+  \o [FILE]              send all query results to file or |pipe
+  \qecho [-n] [STRING]   write string to \o output stream (-n for no newline)
+  \warn [-n] [STRING]    write string to standard error (-n for no newline)
+
+Conditional
+  \if EXPR               begin conditional block
+  \elif EXPR             alternative within current conditional block
+  \else                  final alternative within current conditional block
+  \endif                 end conditional block
+
+Informational
+  (options: S = show system objects, + = additional detail)
+  \d[S+]                 list tables, views, and sequences
+  \d[S+]  NAME           describe table, view, sequence, or index
+  \da[S]  [PATTERN]      list aggregates
+  \dA[+]  [PATTERN]      list access methods
+  \dAc[+] [AMPTRN [TYPEPTRN]]  list operator classes
+  \dAf[+] [AMPTRN [TYPEPTRN]]  list operator families
+  \dAo[+] [AMPTRN [OPFPTRN]]   list operators of operator families
+  \dAp[+] [AMPTRN [OPFPTRN]]   list support functions of operator families
+  \db[+]  [PATTERN]      list tablespaces
+  \dc[S+] [PATTERN]      list conversions
+  \dC[+]  [PATTERN]      list casts
+  \dd[S]  [PATTERN]      show object descriptions not displayed elsewhere
+  \dD[S+] [PATTERN]      list domains
+  \ddp    [PATTERN]      list default privileges
+  \dE[S+] [PATTERN]      list foreign tables
+  \des[+] [PATTERN]      list foreign servers
+  \det[+] [PATTERN]      list foreign tables
+  \deu[+] [PATTERN]      list user mappings
+  \dew[+] [PATTERN]      list foreign-data wrappers
+  \df[anptw][S+] [FUNCPTRN [TYPEPTRN ...]]
+                         list [only agg/normal/procedure/trigger/window] functions
+  \dF[+]  [PATTERN]      list text search configurations
+  \dFd[+] [PATTERN]      list text search dictionaries
+  \dFp[+] [PATTERN]      list text search parsers
+finalmmo=# \d
+               List of relations
+ Schema |      Name       |   Type   |  Owner
+--------+-----------------+----------+----------
+ final  | creators        | table    | postgres
+ final  | creators_id_seq | sequence | postgres
+ final  | game            | table    | postgres
+ final  | user            | table    | postgres
+(4 rows)
+
+finalmmo=# \dE
+Did not find any relations.
+finalmmo=# \d creator
+Did not find any relation named "creator".
+finalmmo=# \d user
+                      Table "final.user"
+  Column  |       Type        | Collation | Nullable | Default
+----------+-------------------+-----------+----------+---------
+ id       | uuid              |           | not null |
+ username | character varying |           |          |
+ type     | character varying |           | not null |
+Indexes:
+    "user_pkey" PRIMARY KEY, btree (id, type)
+    "user_id_key" UNIQUE CONSTRAINT, btree (id)
+    "user_username_key" UNIQUE CONSTRAINT, btree (username)
+Referenced by:
+    TABLE "creators" CONSTRAINT "creator_user" FOREIGN KEY (user_id) REFERENCES "user"(id)
+
+finalmmo=# \d game
+                     Table "final.game"
+ Column |       Type        | Collation | Nullable | Default
+--------+-------------------+-----------+----------+---------
+ id     | uuid              |           | not null |
+ name   | character varying |           |          |
+ cost   | character varying |           |          |
+Indexes:
+    "game_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "creators" CONSTRAINT "published_game" FOREIGN KEY (published_game) REFERENCES game(id)
+
+finalmmo=# CREATE TABLE final.players(id serial, user_id uuid unique, game_library uuid, avator varchar, wallet varchar, CONSTRAINT user_type FOREIGN KEY (user_id) REFERENCES final.user(id));
+CREATE TABLE
+finalmmo=# drop table final.players;
+DROP TABLE
+finalmmo=# CREATE TABLE final.players(id serial, user_id uuid unique, game_library uuid, avator varchar, wallet varchar, CONSTRAINT user_type FOREIGN KEY (user_id) REFERENCES final.user(id), CONSTRAINT game_list FOREIGN KEY (game_library) REFERENCES final.game(id));
+CREATE TABLE
+finalmmo=# \d game
+                     Table "final.game"
+ Column |       Type        | Collation | Nullable | Default
+--------+-------------------+-----------+----------+---------
+ id     | uuid              |           | not null |
+ name   | character varying |           |          |
+ cost   | character varying |           |          |
+Indexes:
+    "game_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "players" CONSTRAINT "game_list" FOREIGN KEY (game_library) REFERENCES game(id)
+    TABLE "creators" CONSTRAINT "published_game" FOREIGN KEY (published_game) REFERENCES game(id)
+
+finalmmo=# \d user
+                      Table "final.user"
+  Column  |       Type        | Collation | Nullable | Default
+----------+-------------------+-----------+----------+---------
+ id       | uuid              |           | not null |
+ username | character varying |           |          |
+ type     | character varying |           | not null |
+Indexes:
+    "user_pkey" PRIMARY KEY, btree (id, type)
+    "user_id_key" UNIQUE CONSTRAINT, btree (id)
+    "user_username_key" UNIQUE CONSTRAINT, btree (username)
+Referenced by:
+    TABLE "creators" CONSTRAINT "creator_user" FOREIGN KEY (user_id) REFERENCES "user"(id)
+    TABLE "players" CONSTRAINT "user_type" FOREIGN KEY (user_id) REFERENCES "user"(id)
+
+finalmmo=# INSERT INTO final.user (id, username, type) VALUES (uuid_generate_v1(), 'User'||generate_series(1,990)
+, 'Player');
+INSERT 0 990
+finalmmo=# INSERT INTO final.user (id, username, type) VALUES (uuid_generate_v1(), 'User'||generate_series(991,99
+5), 'Creator');
+INSERT 0 5
+finalmmo=# INSERT INTO final.user (id, username, type) VALUES (uuid_generate_v1(), 'User'||generate_series(996,1000), 'Creator\Player');
+INSERT 0 5
+finalmmo=# \d
+               List of relations
+ Schema |      Name       |   Type   |  Owner
+--------+-----------------+----------+----------
+ final  | creators        | table    | postgres
+ final  | creators_id_seq | sequence | postgres
+ final  | game            | table    | postgres
+ final  | players         | table    | postgres
+ final  | players_id_seq  | sequence | postgres
+ final  | user            | table    | postgres
+(6 rows)
+
+finalmmo=# \d game
+                     Table "final.game"
+ Column |       Type        | Collation | Nullable | Default
+--------+-------------------+-----------+----------+---------
+ id     | uuid              |           | not null |
+ name   | character varying |           |          |
+ cost   | character varying |           |          |
+Indexes:
+    "game_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "players" CONSTRAINT "game_list" FOREIGN KEY (game_library) REFERENCES game(id)
+    TABLE "creators" CONSTRAINT "published_game" FOREIGN KEY (published_game) REFERENCES game(id)
+
+finalmmo=# INSERT INTO final.game(id, name, cost) VALUES (uuid_generate_v1(), 'Game'||generate_series(1,35), '$0.00');
+INSERT 0 35
+finalmmo=# INSERT INTO final.game(id, name, cost) VALUES (uuid_generate_v1(), 'Game'||generate_series(35,45), '$5.00');
+INSERT 0 11
+finalmmo=# SELECT * FROM final.game;
+                  id                  |  name  | cost
+--------------------------------------+--------+-------
+ 8cb1971c-53e0-11ec-8a26-0242ac110002 | Game1  | $0.00
+ 8cb1a644-53e0-11ec-8a26-0242ac110002 | Game2  | $0.00
+ 8cb1a6d0-53e0-11ec-8a26-0242ac110002 | Game3  | $0.00
+ 8cb1a72a-53e0-11ec-8a26-0242ac110002 | Game4  | $0.00
+ 8cb1a77a-53e0-11ec-8a26-0242ac110002 | Game5  | $0.00
+ 8cb1a7ca-53e0-11ec-8a26-0242ac110002 | Game6  | $0.00
+ 8cb1a824-53e0-11ec-8a26-0242ac110002 | Game7  | $0.00
+ 8cb1a87e-53e0-11ec-8a26-0242ac110002 | Game8  | $0.00
+ 8cb1ad1a-53e0-11ec-8a26-0242ac110002 | Game9  | $0.00
+ 8cb1ad74-53e0-11ec-8a26-0242ac110002 | Game10 | $0.00
+ 8cb1adce-53e0-11ec-8a26-0242ac110002 | Game11 | $0.00
+ 8cb1ae28-53e0-11ec-8a26-0242ac110002 | Game12 | $0.00
+ 8cb1ae82-53e0-11ec-8a26-0242ac110002 | Game13 | $0.00
+ 8cb1aedc-53e0-11ec-8a26-0242ac110002 | Game14 | $0.00
+ 8cb1af2c-53e0-11ec-8a26-0242ac110002 | Game15 | $0.00
+ 8cb1af86-53e0-11ec-8a26-0242ac110002 | Game16 | $0.00
+ 8cb1afd6-53e0-11ec-8a26-0242ac110002 | Game17 | $0.00
+ 8cb1b030-53e0-11ec-8a26-0242ac110002 | Game18 | $0.00
+ 8cb1b08a-53e0-11ec-8a26-0242ac110002 | Game19 | $0.00
+ 8cb1b0da-53e0-11ec-8a26-0242ac110002 | Game20 | $0.00
+ 8cb1b134-53e0-11ec-8a26-0242ac110002 | Game21 | $0.00
+ 8cb1b18e-53e0-11ec-8a26-0242ac110002 | Game22 | $0.00
+ 8cb1b3dc-53e0-11ec-8a26-0242ac110002 | Game23 | $0.00
+ 8cb1b42c-53e0-11ec-8a26-0242ac110002 | Game24 | $0.00
+ 8cb1b47c-53e0-11ec-8a26-0242ac110002 | Game25 | $0.00
+ 8cb1b4cc-53e0-11ec-8a26-0242ac110002 | Game26 | $0.00
+ 8cb1b526-53e0-11ec-8a26-0242ac110002 | Game27 | $0.00
+ 8cb1b576-53e0-11ec-8a26-0242ac110002 | Game28 | $0.00
+ 8cb1b742-53e0-11ec-8a26-0242ac110002 | Game29 | $0.00
+ 8cb1b792-53e0-11ec-8a26-0242ac110002 | Game30 | $0.00
+ 8cb1b7ec-53e0-11ec-8a26-0242ac110002 | Game31 | $0.00
+ 8cb1b846-53e0-11ec-8a26-0242ac110002 | Game32 | $0.00
+ 8cb1b896-53e0-11ec-8a26-0242ac110002 | Game33 | $0.00
+ 8cb1b8e6-53e0-11ec-8a26-0242ac110002 | Game34 | $0.00
+ 8cb1b940-53e0-11ec-8a26-0242ac110002 | Game35 | $0.00
+ 953844e4-53e0-11ec-8a26-0242ac110002 | Game35 | $5.00
+ 95384642-53e0-11ec-8a26-0242ac110002 | Game36 | $5.00
+ 95384688-53e0-11ec-8a26-0242ac110002 | Game37 | $5.00
+ 9538475a-53e0-11ec-8a26-0242ac110002 | Game38 | $5.00
+ 953848f4-53e0-11ec-8a26-0242ac110002 | Game39 | $5.00
+ 95384930-53e0-11ec-8a26-0242ac110002 | Game40 | $5.00
+ 9538496c-53e0-11ec-8a26-0242ac110002 | Game41 | $5.00
+ 953849a8-53e0-11ec-8a26-0242ac110002 | Game42 | $5.00
+ 95384a8e-53e0-11ec-8a26-0242ac110002 | Game43 | $5.00
+ 95384cd2-53e0-11ec-8a26-0242ac110002 | Game44 | $5.00
+ 95384d0e-53e0-11ec-8a26-0242ac110002 | Game45 | $5.00
+(46 rows)
+
+finalmmo=# UPDATE final.game SET name = 'Game46' WHERE id '953844e4-53e0-11ec-8a26-0242ac110002';
+ERROR:  type "id" does not exist
+LINE 1: UPDATE final.game SET name = 'Game46' WHERE id '953844e4-53e...
+                                                    ^
+finalmmo=# UPDATE final.game SET name = 'Game46' WHERE id = '953844e4-53e0-11ec-8a26-0242ac110002';
+UPDATE 1
+finalmmo=# SELECT * FROM final.game;
+                  id                  |  name  | cost
+--------------------------------------+--------+-------
+ 8cb1971c-53e0-11ec-8a26-0242ac110002 | Game1  | $0.00
+ 8cb1a644-53e0-11ec-8a26-0242ac110002 | Game2  | $0.00
+ 8cb1a6d0-53e0-11ec-8a26-0242ac110002 | Game3  | $0.00
+ 8cb1a72a-53e0-11ec-8a26-0242ac110002 | Game4  | $0.00
+ 8cb1a77a-53e0-11ec-8a26-0242ac110002 | Game5  | $0.00
+ 8cb1a7ca-53e0-11ec-8a26-0242ac110002 | Game6  | $0.00
+ 8cb1a824-53e0-11ec-8a26-0242ac110002 | Game7  | $0.00
+ 8cb1a87e-53e0-11ec-8a26-0242ac110002 | Game8  | $0.00
+ 8cb1ad1a-53e0-11ec-8a26-0242ac110002 | Game9  | $0.00
+ 8cb1ad74-53e0-11ec-8a26-0242ac110002 | Game10 | $0.00
+ 8cb1adce-53e0-11ec-8a26-0242ac110002 | Game11 | $0.00
+ 8cb1ae28-53e0-11ec-8a26-0242ac110002 | Game12 | $0.00
+ 8cb1ae82-53e0-11ec-8a26-0242ac110002 | Game13 | $0.00
+ 8cb1aedc-53e0-11ec-8a26-0242ac110002 | Game14 | $0.00
+ 8cb1af2c-53e0-11ec-8a26-0242ac110002 | Game15 | $0.00
+ 8cb1af86-53e0-11ec-8a26-0242ac110002 | Game16 | $0.00
+ 8cb1afd6-53e0-11ec-8a26-0242ac110002 | Game17 | $0.00
+ 8cb1b030-53e0-11ec-8a26-0242ac110002 | Game18 | $0.00
+ 8cb1b08a-53e0-11ec-8a26-0242ac110002 | Game19 | $0.00
+ 8cb1b0da-53e0-11ec-8a26-0242ac110002 | Game20 | $0.00
+ 8cb1b134-53e0-11ec-8a26-0242ac110002 | Game21 | $0.00
+ 8cb1b18e-53e0-11ec-8a26-0242ac110002 | Game22 | $0.00
+ 8cb1b3dc-53e0-11ec-8a26-0242ac110002 | Game23 | $0.00
+ 8cb1b42c-53e0-11ec-8a26-0242ac110002 | Game24 | $0.00
+ 8cb1b47c-53e0-11ec-8a26-0242ac110002 | Game25 | $0.00
+ 8cb1b4cc-53e0-11ec-8a26-0242ac110002 | Game26 | $0.00
+ 8cb1b526-53e0-11ec-8a26-0242ac110002 | Game27 | $0.00
+ 8cb1b576-53e0-11ec-8a26-0242ac110002 | Game28 | $0.00
+ 8cb1b742-53e0-11ec-8a26-0242ac110002 | Game29 | $0.00
+ 8cb1b792-53e0-11ec-8a26-0242ac110002 | Game30 | $0.00
+ 8cb1b7ec-53e0-11ec-8a26-0242ac110002 | Game31 | $0.00
+ 8cb1b846-53e0-11ec-8a26-0242ac110002 | Game32 | $0.00
+ 8cb1b896-53e0-11ec-8a26-0242ac110002 | Game33 | $0.00
+ 8cb1b8e6-53e0-11ec-8a26-0242ac110002 | Game34 | $0.00
+ 8cb1b940-53e0-11ec-8a26-0242ac110002 | Game35 | $0.00
+ 95384642-53e0-11ec-8a26-0242ac110002 | Game36 | $5.00
+ 95384688-53e0-11ec-8a26-0242ac110002 | Game37 | $5.00
+ 9538475a-53e0-11ec-8a26-0242ac110002 | Game38 | $5.00
+ 953848f4-53e0-11ec-8a26-0242ac110002 | Game39 | $5.00
+ 95384930-53e0-11ec-8a26-0242ac110002 | Game40 | $5.00
+ 9538496c-53e0-11ec-8a26-0242ac110002 | Game41 | $5.00
+ 953849a8-53e0-11ec-8a26-0242ac110002 | Game42 | $5.00
+ 95384a8e-53e0-11ec-8a26-0242ac110002 | Game43 | $5.00
+ 95384cd2-53e0-11ec-8a26-0242ac110002 | Game44 | $5.00
+ 95384d0e-53e0-11ec-8a26-0242ac110002 | Game45 | $5.00
+ 953844e4-53e0-11ec-8a26-0242ac110002 | Game46 | $5.00
+(46 rows)
+
+finalmmo=# INSERT INTO final.game(id, name, cost) VALUES (uuid_generate_v1(), 'Game'||generate_series(47,50), '$10.00');
+INSERT 0 4
+finalmmo=# SELECT * FROM final.game;
+                  id                  |  name  |  cost
+--------------------------------------+--------+--------
+ 8cb1971c-53e0-11ec-8a26-0242ac110002 | Game1  | $0.00
+ 8cb1a644-53e0-11ec-8a26-0242ac110002 | Game2  | $0.00
+ 8cb1a6d0-53e0-11ec-8a26-0242ac110002 | Game3  | $0.00
+ 8cb1a72a-53e0-11ec-8a26-0242ac110002 | Game4  | $0.00
+ 8cb1a77a-53e0-11ec-8a26-0242ac110002 | Game5  | $0.00
+ 8cb1a7ca-53e0-11ec-8a26-0242ac110002 | Game6  | $0.00
+ 8cb1a824-53e0-11ec-8a26-0242ac110002 | Game7  | $0.00
+ 8cb1a87e-53e0-11ec-8a26-0242ac110002 | Game8  | $0.00
+ 8cb1ad1a-53e0-11ec-8a26-0242ac110002 | Game9  | $0.00
+ 8cb1ad74-53e0-11ec-8a26-0242ac110002 | Game10 | $0.00
+ 8cb1adce-53e0-11ec-8a26-0242ac110002 | Game11 | $0.00
+ 8cb1ae28-53e0-11ec-8a26-0242ac110002 | Game12 | $0.00
+ 8cb1ae82-53e0-11ec-8a26-0242ac110002 | Game13 | $0.00
+ 8cb1aedc-53e0-11ec-8a26-0242ac110002 | Game14 | $0.00
+ 8cb1af2c-53e0-11ec-8a26-0242ac110002 | Game15 | $0.00
+ 8cb1af86-53e0-11ec-8a26-0242ac110002 | Game16 | $0.00
+ 8cb1afd6-53e0-11ec-8a26-0242ac110002 | Game17 | $0.00
+ 8cb1b030-53e0-11ec-8a26-0242ac110002 | Game18 | $0.00
+ 8cb1b08a-53e0-11ec-8a26-0242ac110002 | Game19 | $0.00
+ 8cb1b0da-53e0-11ec-8a26-0242ac110002 | Game20 | $0.00
+ 8cb1b134-53e0-11ec-8a26-0242ac110002 | Game21 | $0.00
+ 8cb1b18e-53e0-11ec-8a26-0242ac110002 | Game22 | $0.00
+ 8cb1b3dc-53e0-11ec-8a26-0242ac110002 | Game23 | $0.00
+ 8cb1b42c-53e0-11ec-8a26-0242ac110002 | Game24 | $0.00
+ 8cb1b47c-53e0-11ec-8a26-0242ac110002 | Game25 | $0.00
+ 8cb1b4cc-53e0-11ec-8a26-0242ac110002 | Game26 | $0.00
+ 8cb1b526-53e0-11ec-8a26-0242ac110002 | Game27 | $0.00
+ 8cb1b576-53e0-11ec-8a26-0242ac110002 | Game28 | $0.00
+ 8cb1b742-53e0-11ec-8a26-0242ac110002 | Game29 | $0.00
+ 8cb1b792-53e0-11ec-8a26-0242ac110002 | Game30 | $0.00
+ 8cb1b7ec-53e0-11ec-8a26-0242ac110002 | Game31 | $0.00
+ 8cb1b846-53e0-11ec-8a26-0242ac110002 | Game32 | $0.00
+ 8cb1b896-53e0-11ec-8a26-0242ac110002 | Game33 | $0.00
+ 8cb1b8e6-53e0-11ec-8a26-0242ac110002 | Game34 | $0.00
+ 8cb1b940-53e0-11ec-8a26-0242ac110002 | Game35 | $0.00
+ 95384642-53e0-11ec-8a26-0242ac110002 | Game36 | $5.00
+ 95384688-53e0-11ec-8a26-0242ac110002 | Game37 | $5.00
+ 9538475a-53e0-11ec-8a26-0242ac110002 | Game38 | $5.00
+ 953848f4-53e0-11ec-8a26-0242ac110002 | Game39 | $5.00
+ 95384930-53e0-11ec-8a26-0242ac110002 | Game40 | $5.00
+ 9538496c-53e0-11ec-8a26-0242ac110002 | Game41 | $5.00
+ 953849a8-53e0-11ec-8a26-0242ac110002 | Game42 | $5.00
+ 95384a8e-53e0-11ec-8a26-0242ac110002 | Game43 | $5.00
+ 95384cd2-53e0-11ec-8a26-0242ac110002 | Game44 | $5.00
+ 95384d0e-53e0-11ec-8a26-0242ac110002 | Game45 | $5.00
+ 953844e4-53e0-11ec-8a26-0242ac110002 | Game46 | $5.00
+ f9e6cd70-53e0-11ec-8a26-0242ac110002 | Game47 | $10.00
+ f9e6d108-53e0-11ec-8a26-0242ac110002 | Game48 | $10.00
+ f9e6d18a-53e0-11ec-8a26-0242ac110002 | Game49 | $10.00
+ f9e6d3ec-53e0-11ec-8a26-0242ac110002 | Game50 | $10.00
+(50 rows)
+
+finalmmo=# SELECT * from final.user u left join final.creator;
+ERROR:  syntax error at or near ";"
+LINE 1: SELECT * from final.user u left join final.creator;
+                                                          ^
+finalmmo=# CREATE TABLE chat(id uuid, Associatedgame uuid, user_id uuid, time timestamp, message varchar, constraints user_message FOREIGN KEY user_id REFERENCES final.user(id));
+ERROR:  syntax error at or near "FOREIGN"
+LINE 1: ...estamp, message varchar, constraints user_message FOREIGN KE...
+                                                             ^
+finalmmo=# CREATE TABLE chat(id uuid, Associatedgame uuid, user_id uuid, time timestamp, message varchar, constraints user_message foreign key user_id REFERENCES final.user(id));
+ERROR:  syntax error at or near "foreign"
+LINE 1: ...estamp, message varchar, constraints user_message foreign ke...
+                                                             ^
+finalmmo=# CREATE TABLE chat(id uuid, Associatedgame uuid, user_id uuid, time timestamp, message varchar, constraint user_message foreign key user_id REFERENCES final.user(id));
+ERROR:  syntax error at or near "user_id"
+LINE 1: ...sage varchar, constraint user_message foreign key user_id RE...
+                                                             ^
+finalmmo=# CREATE TABLE chat(id uuid, Associatedgame uuid, user_id uuid, time timestamp, message varchar, constraint user_message foreign key (user_id) REFERENCES final.user(id));
+CREATE TABLE
