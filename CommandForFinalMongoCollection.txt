@@ -1,0 +1,157 @@
+Microsoft Windows [Version 10.0.19043.1348]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\sderenski>docker exec -it dbt230_pg_SD /bin/bash
+root@3bd591edccfe:/# exit
+exit
+
+C:\Users\sderenski>docker exec -it dbt230_mongo_SD /bin/bash
+root@d7ae73877467:/# mongosh
+Current Mongosh Log ID: 61aa65c587ddbf2850a59435
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000
+Using MongoDB:          5.0.3
+Using Mongosh:          1.1.0
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting:
+   2021-12-03T18:43:56.114+00:00: Using the XFS filesystem is strongly recommended with the WiredTiger storage engine. See http://dochub.mongodb.org/core/prodnotes-filesystem
+   2021-12-03T18:43:57.185+00:00: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+   2021-12-03T18:43:57.185+00:00: /sys/kernel/mm/transparent_hugepage/enabled is 'always'. We suggest setting it to 'never'
+------
+
+Warning: Found ~/.mongorc.js, but not ~/.mongoshrc.js. ~/.mongorc.js will not be loaded.
+  You may want to copy or rename ~/.mongorc.js to ~/.mongoshrc.js.
+test> use finalmmo
+switched to db finalmmo
+finalmmo> user_OBID = ObjectId()
+ObjectId("61aa661e0caf84c1b8f0436b")
+finalmmo> db.user.insertOne("id": user_OBID, "username": "Scoutsniper674", "Type": "Creator");
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:22)
+
+> 1 | db.user.insertOne("id": user_OBID, "username": "Scoutsniper674", "Type": "Creator");
+    |                       ^
+  2 |
+
+finalmmo> db.user.insertOne({"id": user_OBID, "username": "Scoutsniper674", "Type": "Creator"});
+{
+  acknowledged: true,
+  insertedId: ObjectId("61aa66a60caf84c1b8f0436c")
+}
+finalmmo> game_OBID = ObjectId()
+ObjectId("61aa66be0caf84c1b8f0436d")
+finalmmo> db.game.insertOne({"id": game_OBID, "title": "Halo Infinite", "Cost": "$0.00"})
+{
+  acknowledged: true,
+  insertedId: ObjectId("61aa67190caf84c1b8f0436e")
+}
+finalmmo> db.creator.insertOne({"User": { $ref: "user", $id: user_OBID} })
+{
+  acknowledged: true,
+  insertedId: ObjectId("61aa676c0caf84c1b8f0436f")
+}
+finalmmo> select * from db.creator
+Uncaught:
+SyntaxError: Missing semicolon. (1:13)
+
+> 1 | select * from db.creator
+    |              ^
+  2 |
+
+finalmmo> db.creator.find()
+[
+  {
+    _id: ObjectId("61aa676c0caf84c1b8f0436f"),
+    User: DBRef("user", ObjectId("61aa661e0caf84c1b8f0436b"))
+  }
+]
+finalmmo> db.creator.update(
+... { _id : ObjectId("61aa676c0caf84c1b8f0436f") },
+... {$set : { Published_Games: { $ref: "game", $id: game_OBID}}})
+DeprecationWarning: Collection.update() is deprecated. Use updateOne, updateMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+finalmmo> db.creator.find()
+[
+  {
+    _id: ObjectId("61aa676c0caf84c1b8f0436f"),
+    User: DBRef("user", ObjectId("61aa661e0caf84c1b8f0436b")),
+    Published_Games: DBRef("game", ObjectId("61aa66be0caf84c1b8f0436d"))
+  }
+]
+finalmmo> user_PlayerID = ObjectId()
+ObjectId("61aa68650caf84c1b8f04370")
+finalmmo> db.player.insertOne({User: {$ref: "user", $id: user_PlayerID}, Wallet: "$23.24", Avator: "Tall, Brown eyed, Dark Hair, Human", GameLibrary: { $ref: "game", $id: game_OBID}})
+{
+  acknowledged: true,
+  insertedId: ObjectId("61aa692a0caf84c1b8f04371")
+}
+finalmmo> db.player.find()
+[
+  {
+    _id: ObjectId("61aa692a0caf84c1b8f04371"),
+    User: DBRef("user", ObjectId("61aa68650caf84c1b8f04370")),
+    Wallet: '$23.24',
+    Avator: 'Tall, Brown eyed, Dark Hair, Human',
+    GameLibrary: DBRef("game", ObjectId("61aa66be0caf84c1b8f0436d"))
+  }
+]
+finalmmo> user_PlayerID2 = ObjectId()
+ObjectId("61aa69d50caf84c1b8f04372")
+finalmmo> db.player.insertOne({User: {$ref: "user", $id: user_PlayerID2}, Wallet: "$0.00", Avator: "Short, Blue eyed, Dark Hair, Human, Spartan Armor", GameLibrary: { $ref: "game", $id: game_OBID}})
+{
+  acknowledged: true,
+  insertedId: ObjectId("61aa6a020caf84c1b8f04373")
+}
+finalmmo> db.player.find()
+[
+  {
+    _id: ObjectId("61aa692a0caf84c1b8f04371"),
+    User: DBRef("user", ObjectId("61aa68650caf84c1b8f04370")),
+    Wallet: '$23.24',
+    Avator: 'Tall, Brown eyed, Dark Hair, Human',
+    GameLibrary: DBRef("game", ObjectId("61aa66be0caf84c1b8f0436d"))
+  },
+  {
+    _id: ObjectId("61aa6a020caf84c1b8f04373"),
+    User: DBRef("user", ObjectId("61aa69d50caf84c1b8f04372")),
+    Wallet: '$0.00',
+    Avator: 'Short, Blue eyed, Dark Hair, Human, Spartan Armor',
+    GameLibrary: DBRef("game", ObjectId("61aa66be0caf84c1b8f0436d"))
+  }
+]
+finalmmo> db.chatroom.insertOne({gameChat: { $ref: "game", $id: game_OBID}, dateAdded: new Date(), User: { $ref: "user", $id: user_PlayerID}, message: "Go for the Flag!"})
+{
+  acknowledged: true,
+  insertedId: ObjectId("61aa6ae40caf84c1b8f04374")
+}
+finalmmo> db.chatroom.insertOne({gameChat: { $ref: "game", $id: game_OBID}, dateAdded: new Date(), User: { $ref: "user", $id: user_PlayerID2}, message: "On it!"})
+{
+  acknowledged: true,
+  insertedId: ObjectId("61aa6af10caf84c1b8f04375")
+}
+finalmmo> db.chatroom.find()
+[
+  {
+    _id: ObjectId("61aa6ae40caf84c1b8f04374"),
+    gameChat: DBRef("game", ObjectId("61aa66be0caf84c1b8f0436d")),
+    dateAdded: ISODate("2021-12-03T19:07:16.630Z"),
+    User: DBRef("user", ObjectId("61aa68650caf84c1b8f04370")),
+    message: 'Go for the Flag!'
+  },
+  {
+    _id: ObjectId("61aa6af10caf84c1b8f04375"),
+    gameChat: DBRef("game", ObjectId("61aa66be0caf84c1b8f0436d")),
+    dateAdded: ISODate("2021-12-03T19:07:29.140Z"),
+    User: DBRef("user", ObjectId("61aa69d50caf84c1b8f04372")),
+    message: 'On it!'
+  }
+]
+finalmmo>
