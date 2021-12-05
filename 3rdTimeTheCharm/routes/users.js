@@ -55,25 +55,19 @@ router.post('/add-user', function(req, res, next) {
     }
 });
 
-/*
-Attempting to Query Data that is.... Man What the heck.
-// Pull query Data from MongoDB
-router.get('/viewall', function(req, res) {
-  userModel.find({}, function(err, users) {
-    console.log("\nUsers !");
-    console.log(users);
-    renderResult(res, users, "User List from MongoDB :");
+
+// Lsiting out the user data
+router.get('/list', function(req, res, next) {
+  userModel.find((err, docs) => {
+    if (!err) {
+      res.render("list", {
+        data: docs
+      });
+    } else {
+      console.log('Failed to Retrieve the Users List: ' + err);
+    }
   });
 });
 
-function renderResult (res, users, msg) {
-  res.render('display.ejs', {message:msg, users:users},
-    function(err, result) {
-      if (!err) {res.end(result);}
-      else {res.end('Oops ! An error occured.');
-        console.log(err);}
-    });
-}
-*/
 
 module.exports = router;
