@@ -1,2 +1,0 @@
-{"_id":{"$oid":"61aa692a0caf84c1b8f04371"},"User":{"$ref":"user","$id":{"$oid":"61aa68650caf84c1b8f04370"}},"Wallet":"$23.24","Avator":"Tall, Brown eyed, Dark Hair, Human","GameLibrary":{"$ref":"game","$id":{"$oid":"61aa66be0caf84c1b8f0436d"}}}
-{"_id":{"$oid":"61aa6a020caf84c1b8f04373"},"User":{"$ref":"user","$id":{"$oid":"61aa69d50caf84c1b8f04372"}},"Wallet":"$0.00","Avator":"Short, Blue eyed, Dark Hair, Human, Spartan Armor","GameLibrary":{"$ref":"game","$id":{"$oid":"61aa66be0caf84c1b8f0436d"}}}
